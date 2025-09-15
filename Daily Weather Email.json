@@ -1,0 +1,143 @@
+{
+  "name": "Daily Weather Email",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 12,
+              "triggerAtMinute": 17
+            },
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -352,
+        -16
+      ],
+      "id": "6538c74b-b10e-413a-b001-472684da2425",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "https://api.openweathermap.org/data/2.5/weather",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "Hyderabad"
+            },
+            {
+              "name": "appid",
+              "value": "7d9cf0f728d8d76efefa020b68720b51"
+            },
+            {
+              "name": "units",
+              "value": "metric"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -144,
+        -16
+      ],
+      "id": "6debe0ca-5a80-4cfd-bd24-7bd83f8bd210",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "jsCode": "const data = items[0].json;\n\nconst city = data.name;\nconst temp = data.main.temp;\nconst desc = data.weather[0].description;\n\nreturn [{\n  json: {\n    subject: `🌤️ Weather Update for ${city}`,\n    text: `Good morning!\\nToday in ${city}, it is ${temp}°C with ${desc}.`,\n    html: `<h2>Good morning!</h2>\n           <p>Today in <b>${city}</b>, it is <b>${temp}°C</b> with ${desc}.</p>`\n  }\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        48,
+        -16
+      ],
+      "id": "67d26e2d-274d-4909-8ab8-e6c294d1be59",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "fromEmail": "rikith84@gmail.com",
+        "toEmail": "rikithnaidumadimala@gmail.com",
+        "subject": "={{$json.subject}}",
+        "html": "={{$json.html}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        224,
+        -16
+      ],
+      "id": "91c2ca26-0171-4578-9f11-19efea1516f0",
+      "name": "Send email",
+      "webhookId": "39cb7209-a164-45ca-bf70-339f39523ce7",
+      "credentials": {
+        "smtp": {
+          "id": "0g9l27WsxAAXjEzW",
+          "name": "SMTP account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Send email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": -1
+  },
+  "versionId": "6adc6292-e51a-4bb9-bfc1-dd8e9219a648",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b956faeff20f6c3ecc1ed4c7a9aa530f8c4a02bf01a6c94f052d5a6da86e8a1a"
+  },
+  "id": "Oimw970ZnbjxwmJG",
+  "tags": []
+}
