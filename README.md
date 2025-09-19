@@ -1,27 +1,80 @@
 🌤️ n8n Daily Weather Email Workflow
 
-This project is an automation built in n8n that fetches the daily weather using the OpenWeatherMap API and sends it as an email via SMTP (Gmail/Outlook).
+This repository contains an automation workflow built with n8n that retrieves daily weather information from the OpenWeatherMap API and delivers it by email using SMTP.
 
-🚀 Features
+📖 Overview
 
-Runs automatically every day at a scheduled time (via Schedule Trigger)
+The workflow is designed for beginners who want to learn n8n by creating a simple but practical project. It demonstrates how to:
 
-Fetches live weather data for a chosen city (via HTTP Request to OpenWeatherMap)
+Trigger a workflow on a schedule.
 
-Formats the weather into a clean email with subject + HTML body (via Function Node)
+Retrieve weather data from a public API.
 
-Sends the weather email to your inbox (via Send Email Node)
+Transform the data into a formatted email message.
 
-🛠️ Workflow Nodes
+Send the email using Gmail, Outlook, or any SMTP provider.
 
-Schedule Trigger → Runs daily at 8:00 AM
+⚙️ Workflow Components
 
-HTTP Request → Calls OpenWeatherMap API with your city + API key
+Schedule Trigger – initiates the workflow at a specific time each day.
 
-Function Node → Creates subject, text, and html email content (includes humidity + wind)
+HTTP Request – fetches weather data from the OpenWeatherMap API.
 
-Send Email → Sends the email through Gmail/Outlook SMTP
+Function Node – prepares the email content, including:
 
-📦 Requirements
+Subject line
 
-n8n
+Plain text body
+
+HTML body (formatted with city, temperature, condition, humidity, and wind speed)
+
+Send Email Node – delivers the weather report to the recipient via SMTP.
+
+🛠️ Prerequisites
+
+n8n https://n8n.io installed locally or on a server.
+
+A free OpenWeatherMap API Key https://openweathermap.org/api
+
+An email account with SMTP access:
+
+Gmail (requires App Password with 2FA enabled).
+
+Outlook or other SMTP-compatible providers.
+
+🔑 Example SMTP Configuration (Gmail)
+
+User: yourname@gmail.com
+
+Password: <Google App Password>
+
+Host: smtp.gmail.com
+
+Port: 465 (SSL) or 587 (TLS)
+
+
+
+📧 Example Email Output
+
+Subject: 🌤️ Weather Update for Hyderabad
+
+HTML Body:
+
+🌤️ Weather Update  
+City: Hyderabad  
+Temperature: 27.2°C  
+Condition: haze  
+Humidity: 78%  
+Wind: 5.1 m/s  
+
+Have a great day! 🌞
+
+📥 Import Instructions
+
+Download or clone this repository.
+
+In n8n, select Import from File and upload Weather-Email-Workflow.json.
+
+Enter your OpenWeatherMap API key and SMTP credentials.
+
+Save and activate the workflow.
